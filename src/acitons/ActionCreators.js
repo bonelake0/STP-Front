@@ -1,7 +1,7 @@
 import * as ActionType from './ActionTypes';
 
 import * as jwtHelper from './JwtHelper';
-import { actionTypes } from 'react-redux-form';
+import { useHistory } from 'react-router-dom';
 
 export const userPostFetch = user => {
     return dispatch => {
@@ -120,3 +120,41 @@ const userFailed = errMess => ({
   payload: errMess,
 })
 
+const baseUrl = 'http://localhost:3000/';
+
+export const fetchPlacards = (pageNo) => (dispatch) => {
+  console.log('Now loading brower page: ' + pageNo)
+  dispatch(placardsLoading(true));
+
+  // return fetch(baseUrl + 'placards/' + pageNo)
+  // .then(response => {
+  //         if (response.ok) {
+  //           return response;
+  //         } else {
+  //           var error = new Error('Error ' + response.status + ':' + response.statusText);
+  //           error.response = response;
+  //           throw error;
+  //         }
+  //       },
+  //       error => {
+  //         var errMess = new Error(error.message);
+  //         throw errMess;
+  //       })
+  // .then(response => response.json())
+  // .then(placards => dispatch(updatePlacards(placards)))
+  // .catch(error => dispatch(placardsFailed(error.message)));
+};
+
+const placardsLoading = () => ({
+  type: ActionType.PLACARDS_LAODING,
+});
+
+const placardsFailed = (errMess) => ({
+  type: ActionType.PLACARDS_FAILED,
+  payload: errMess
+});
+
+const updatePlacards = (placards) => ({
+  type: ActionType.UPDATE_PLACARDS,
+  payload: placards
+});

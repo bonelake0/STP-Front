@@ -1,3 +1,7 @@
 export const LOGIN_USER = 'LOGIN_USER';
 export const SET_USER = 'SET_USER';
 export const USER_FAILED = 'USER_FAILED';
+
+export const PLACARDS_LAODING = 'PLACARDS_LOADING';
+export const PLACARDS_FAILED = 'PLACARDS_FAILED';
+export const UPDATE_PLACARDS = 'UPDATE_PLACARDS';

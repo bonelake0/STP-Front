@@ -28,6 +28,7 @@ export const User = (state = {
             console.log(action.payload);
             return {
                 ...state,
+                isLoggedIn: false
             }
         }
 

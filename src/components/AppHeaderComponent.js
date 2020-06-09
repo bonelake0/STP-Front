@@ -25,14 +25,24 @@ class Header extends Component {
                     <Navbar.Collapse id='nav-toggle'>
                     <Nav className="mr-auto">
                         <Nav.Item>
+                            <Nav.Link as={Link} style={navbarTextColor} to='/signup'>
+                                Signup
+                            </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
                             <Nav.Link as={Link} style={navbarTextColor} to='/login'>
                                 Login
+                            </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link as={Link} style={navbarTextColor} to='/browse'>
+                                Browse
                             </Nav.Link>
                         </Nav.Item>
                     </Nav>
                     <Form inline>
                         <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button variant="outline-success">Search</Button>
+                        <Button className='btn-primary'>Search</Button>
                     </Form>
                     </Navbar.Collapse>
                 </Navbar>

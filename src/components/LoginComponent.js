@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {userLoginFetch} from '../acitons/ActionCreators';
+import { Row, Col, Button, Form, FormGroup, Container } from 'react-bootstrap';
 
 class Login extends Component {
     constructor(props) {
@@ -25,28 +26,32 @@ class Login extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <h1>Login</h1>
-
-        <label>Username</label>
-        <input
-          name='username'
-          placeholder='Username'
-          value={this.state.username}
-          onChange={this.handleChange}
-          /><br/>
-
-        <label>Password</label>
-        <input
-          type='password'
-          name='password'
-          placeholder='Password'
-          value={this.state.password}
-          onChange={this.handleChange}
-          /><br/>
-
-        <input type='submit'/>
-      </form>
+      <Container>
+        <Row>
+          <Col md={{span:6, offset:3}} xl={{span:4, offset:4}} className='mt-5'>
+            <Form onSubmit={this.handleSubmit}>
+                <FormGroup>
+                    <Form.Label hmtlFor='username'>Username</Form.Label>
+                    <Form.Control type='text' id='username' name='username'
+                        value={this.state.username} onChange={this.handleChange}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Form.Label hmtlFor='password'>Password</Form.Label>
+                    <Form.Control type='password' id='password' name='password'
+                        value={this.state.password} onChange={this.handleChange}
+                    />
+                </FormGroup>
+                <FormGroup check>
+                    <Form.Check type='checkbox' name='remember' label='Remember me'
+                        // copy
+                    />
+                </FormGroup>
+                <Button type='submit' value='submit' color='primary'>Log in</Button>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
     )
   }
 }

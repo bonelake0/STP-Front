@@ -1,0 +1,33 @@
+#app {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+#browser {
+    background-color: #e0fbfc;
+}
+
+#footer {
+    background-color: #98c1d9;
+    padding: 10px;
+}
+
+
+#sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+}
+
+.btn-primary {
+    background-color: #ee6c4d;
+    border-color: #ee6c4d;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #ff6c4d;
+    border-color: #ff6c4d;
+    color: #ffffff;
+    box-shadow: 0 0 5px #ee6c4d;
+}
