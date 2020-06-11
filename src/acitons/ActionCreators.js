@@ -163,7 +163,7 @@ export const fetchPlacards = (pageNo) => (dispatch) => {
   console.log('Now loading brower page: ' + pageNo)
   dispatch(placardsLoading(true));
 
-  var url = new URL(сonfig.baseUrl  + '/api/Placards/all');
+  var url = new URL(сonfig.baseUrl  + '/api/Placard/all');
 
   var params = {page: pageNo};
 
