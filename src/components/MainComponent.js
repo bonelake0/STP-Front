@@ -8,7 +8,8 @@ import Footer from './FooterComponent';
 import Signup from './RegistrationComponent';
 import Login from './LoginComponent';
 import Browser from './BrowserComponent';
-import {PrivateRoute} from './PrivateRoute';
+import PlacardView from './PlacardViewComponent';
+import UserProfile from './UserProfileComponent';
 
 class Main extends Component {
 
@@ -34,8 +35,18 @@ class Main extends Component {
                 <Switch>
                     <Route path="/signup" component={Signup}/>
                     <Route path="/login" component={Login}/>
-                    <PrivateRoute isUserLoggedIn={this.props.user.isLoggedIn} path="/browse" component={BrowserPage}/>
+                    <Route path="/browse" render={() =>{
+                        return this.props.user.isLoggedIn 
+                            ? <BrowserPage /> 
+                            : <Login />
+                    }}/>
+                    <Route path="/profile" render={() =>{
+                        return this.props.user.isLoggedIn
+                            ? <UserProfile />
+                            : <Login />
+                    }}/>
                     <Route path="/settings" />
+                    <Route path="/card" component={PlacardView} />
                 </Switch>
                 <Footer />
             </div>

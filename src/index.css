@@ -5,18 +5,48 @@
     justify-content: space-between;
 }
 #browser {
-    background-color: #e0fbfc;
+    background: rgb(43,113,154);
+    background: linear-gradient(0deg, rgba(43,113,154,1) 0%, rgba(224,251,252,1) 100%);
+    min-height: 100vh;
 }
 
 #footer {
-    background-color: #98c1d9;
+    background-color: #2b719a;
     padding: 10px;
+    color: white;
 }
 
+#footer a {
+    color: white;
+}
 
 #sidebar-wrapper .sidebar-heading {
     padding: 0.875rem 1.25rem;
     font-size: 1.2rem;
+}
+
+.project-logo {
+    font-weight: 500;
+    font-size: 36px;
+}
+
+.nav-menu-item {
+    font-size: 24px;
+}
+
+.signup-body {
+    background-color: teal;
+}
+
+.placard-view {
+    background-color: #e0fbfc;
+    min-height: 100vh;
+}
+
+.placard-view-container {
+    background-color: white;
+    padding: 0%;
+    min-height: 100vh;
 }
 
 .btn-primary {

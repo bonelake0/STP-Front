@@ -17,8 +17,8 @@ class Header extends Component {
             <React.Fragment>
                 <Navbar style={navbarStyle}>
                     <Navbar.Brand style={navbarTextColor}>
-                        <Nav.Link as={Link} style={navbarTextColor} to='/'>
-                            Logo
+                        <Nav.Link as={Link} style={navbarTextColor} to='/' className='project-logo'>
+                            P L I N T
                         </Nav.Link>
                     </Navbar.Brand>
                     <Navbar.Toggle style={navbarTextColor} aria-controls='nav-toggle' />
@@ -37,6 +37,11 @@ class Header extends Component {
                         <Nav.Item>
                             <Nav.Link as={Link} style={navbarTextColor} to='/browse'>
                                 Browse
+                            </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Nav.Link as={Link} style={navbarTextColor} to='/profile'>
+                                My Profile
                             </Nav.Link>
                         </Nav.Item>
                     </Nav>

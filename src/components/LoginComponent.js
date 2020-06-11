@@ -4,13 +4,13 @@ import {userLoginFetch} from '../acitons/ActionCreators';
 import { Row, Col, Button, Form, FormGroup, Container } from 'react-bootstrap';
 
 class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: "",
-            password: "",
-        }
-    } 
+  constructor(props) {
+      super(props);
+      this.state = {
+          login: "",
+          password: "",
+      }
+  } 
 
   handleChange = event => {
     this.setState({
@@ -31,13 +31,13 @@ class Login extends Component {
           <Col md={{span:6, offset:3}} xl={{span:4, offset:4}} className='mt-5'>
             <Form onSubmit={this.handleSubmit}>
                 <FormGroup>
-                    <Form.Label hmtlFor='username'>Username</Form.Label>
+                    <Form.Label>Username</Form.Label>
                     <Form.Control type='text' id='username' name='username'
                         value={this.state.username} onChange={this.handleChange}
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Form.Label hmtlFor='password'>Password</Form.Label>
+                    <Form.Label>Password</Form.Label>
                     <Form.Control type='password' id='password' name='password'
                         value={this.state.password} onChange={this.handleChange}
                     />

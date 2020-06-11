@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Modal, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { getProfileFetch, fetchPlacards } from '../acitons/ActionCreators';
+import { fetchPlacards } from '../acitons/ActionCreators';
 
 import Filter from './FilterComponent';
 
@@ -27,15 +27,30 @@ const RenderCardItem = ({placard}) => {
 const LoadingCardItem = () =>{
     return (
         <Card>
-            <Card.Title>Loading...</Card.Title>
-            <Card.Text>
-                If loading is going for to long, yall fucked up.
-            </Card.Text>
-            <Button id='btn-primary' >Help!</Button>
+            <Card.Body>
+                <Card.Title>Loading...</Card.Title>
+                <Card.Text>
+                    If loading is going for to long, yall fucked up.
+                </Card.Text>
+                <Button id='btn-primary' >Help!</Button>
+            </Card.Body>
         </Card>
     )
 }
 
+const TestCardItem = () =>{
+    return (
+        <Card>
+        <Card.Body>
+            <Card.Title>Loading...</Card.Title>
+            <Card.Text>
+                If loading is going for to long, yall fucked up.
+            </Card.Text>
+            <Link to='/card'><Button>Lookup</Button></Link>
+        </Card.Body>
+        </Card>
+    )
+}
 
 const Browser = (props) => {
 
@@ -65,7 +80,12 @@ const Browser = (props) => {
                         <Col md='4' mt='5'>
                             <RenderCardItem />
                         </Col>
-                        <LoadingCardItem />
+                        <Col md='4' mt='5'>
+                            <LoadingCardItem />
+                        </Col>
+                        <Col md='4' mt='5'>
+                            <TestCardItem />
+                        </Col>
                     </Row>
                 </Container>
             </div>
@@ -100,43 +120,6 @@ const Browser = (props) => {
         );
     }
 }
-
-const CardLookup = () => {
-    const [showLookup, setShowLookup] = useState(false);
-  
-    const handleCloseLookup = () => setShowLookup(false);
-    const handleShowLookup = () => setShowLookup(true);
-  
-    return (
-      <>
-        <Button variant="primary" onClick={handleShowLookup}>
-            Lookup
-        </Button>
-  
-        <Modal show={showLookup} onHide={handleCloseLookup}>
-            <Modal.Header closeButton>
-                <Modal.Title>Card Title</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Card>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                    <Card.Text>
-                        Some quick example text to build on the card title and make up the bulk
-                        of the card's content.
-                    </Card.Text>
-                    </Card.Body>
-                </Card>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseLookup}>
-                Close
-                </Button>
-            </Modal.Footer>
-        </Modal>
-      </>
-    );
-  }
 
 const mapStateToProps = state => {
     return {

@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 export default function Footer(props) {
     return(
         <div id="footer">
-        <div className="container">
+        <Container fluid>
             <div className="row justify-content-center">             
                 <div className="col-4 offset-1 col-sm-2">
                     <h5>Links</h5>
@@ -44,7 +44,7 @@ export default function Footer(props) {
                     <p>© Copyright 2018 Ristorante Con Fusion</p>
                 </div>
             </div>
-        </div>
+        </Container>
     </div>
     );
 }

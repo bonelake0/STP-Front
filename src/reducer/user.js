@@ -3,16 +3,17 @@ import * as ActionType from '../acitons/ActionTypes';
 export const User = (state = { 
     id: '',
     username: '',
-    name: '',
     role: '',
     isLoggedIn: false,
 }, action) => {
     switch (action.type) {
         case ActionType.LOGIN_USER:
             return {
-                ...state, 
-                username: action.payload.username
-            }; // remove?
+                ...state,
+                id: action.payload.userId,
+                username: action.payload.username,
+                isLoggedIn: true,
+            };
 
         case ActionType.SET_USER:
             return {

@@ -9,7 +9,7 @@ export const Placards = (state ={
         case ActionTypes.UPDATE_PLACARDS:
             return {...state, isLoading: false, errmess: null, placards: action.payload};
         
-        case ActionTypes.PLACARDS_LAODING:
+        case ActionTypes.PLACARDS_LOADING:
             return {...state, isLoading: true, errmess: null, placards: []};
 
         case ActionTypes.PLACARDS_FAILED:
