@@ -3,7 +3,9 @@ import * as ActionType from './ActionTypes';
 import * as jwtHelper from './JwtHelper';
 import { useHistory } from 'react-router-dom';
 
-import { сonfig } from '../config';
+import { config } from '../config';
+import { actionTypes } from 'react-redux-form';
+import history from '../history';
 
 export const userPostFetch = (regForm) => {
     console.log(JSON.stringify({
@@ -13,7 +15,7 @@ export const userPostFetch = (regForm) => {
       email: regForm.email,
     }));
     return dispatch => {
-      return fetch(сonfig.baseUrl + '/api/Account', {
+      return fetch(config.baseUrl + '/api/Account', {
         method: "POST",
         headers: {
           'content-type': 'application/json',
@@ -27,13 +29,14 @@ export const userPostFetch = (regForm) => {
           email: regForm.email,
         })
       })
-        .then(response => {
-          if (response.ok && response.successful) {
+        .then(response => response.json())
+        .then(responseData => {
+          if (responseData.successful) {
             console.log('Account created');
-            // redierect
+            history.push('/login');
           } else {
-            var error = new Error('Error' + response.status + ': ' + response.statusText);
-            error.response = response;
+            var error = new Error('Error' + responseData.status + ': ' + responseData.statusText);
+            error.response = responseData;
             throw error;
           }
         })
@@ -49,7 +52,7 @@ export const userPostFetch = (regForm) => {
 
 export const userLoginFetch = user => {
     return dispatch => {
-      return fetch(сonfig.baseUrl + '/api/Login', {
+      return fetch(config.baseUrl + '/api/Login', {
         method: "POST",
         headers: {
           'content-type': 'application/json',
@@ -73,8 +76,10 @@ export const userLoginFetch = user => {
       })
         .then(data => {
           if (data.successful) {
-            localStorage.setItem("token", data.token)
-            dispatch(loginUser(data))
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("userId",data.userId);
+            dispatch(loginUser(data));
+            history.push('/browse');
           } else {
             dispatch(userFailed)
           }
@@ -87,62 +92,66 @@ export const userLoginFetch = user => {
     }
 }
 
-// export const getProfileFetch = () => {
-//   return dispatch => {
-//       const token = localStorage.token;
-//       if (token) {
-//         return fetch("http://localhost:3000/api/v1/profile", {
-//             method: "GET",
-//             headers: {
-//             'Content-Type': 'application/json',
-//             Accept: 'application/json',
-//             'Authorization': `Bearer ${token}`
-//             }
-//       })
-//         .then(resp => resp.json())
-//         .then(data => {
-//             if (data.message) {
-//                 // error if token has expired
-//                 localStorage.removeItem("token")
-//             } else {
-//                 dispatch(loginUser(data.user))
-//             }
-//         })
-//       }
-//   }
-// }
+export const profileInfoFetch = () => {
+  return dispatch => {
+    dispatch(profileLoading);
+    return fetch(config.baseUrl + `/api/User/${localStorage.getItem('userId')}`, {
+      method: "GET",
+      headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      dispatch(updateProfile(data));
+    })
+    // redirect
 
-// export const userLoginFetch = user => (dispatch) => {
-
-//     if (jwtHelper.validateUserLogin(user)) {
-//       console.log('User validated');
-//       var data = jwtHelper.getToken(user);
-//       localStorage.setItem('token', data.token);
-//       return dispatch(setUser(data.user));
-//     } else {
-//       return dispatch(userFailed('User credentials denied'))
-//     }
-
-// } // temp until backend is present
-
-export const getProfileFetch = () => (dispatch) => {
-  const localToken = localStorage.getItem('token');
-  if (localToken) {
-    console.log('Token is present');
-    const response = jwtHelper.verifyToken(localToken);
-    console.log(response);
-    if (response.error) {
-      console.log(response.message);
-      console.log(response.error.message);
-      localStorage.removeItem('token');
-    } else {
-      console.log('Token validated');
-      return dispatch(setUser(response.user));
-    }
-  } else {
-    console.log('Token is not present');
   }
-} // temp until backend is present
+}
+
+export const putProfileInfoFetch = (formData) => {
+  return dispatch => {
+    dispatch(profileLoading);
+    return fetch(config.baseUrl + `/api/User/${localStorage.getItem('userId')}`, {
+      method: "PUT",
+      headers: {
+        'accept': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: formData
+    })
+    .then(response => {
+      console.log(response);
+      //dispatch profileget
+    })
+
+  }
+}
+
+export const userTokenCheck = () => (dispatch) => {
+  // const localToken = localStorage.getItem('token');
+  // if (localToken) {
+  //   console.log('Token is present');
+  //   const response = jwtHelper.verifyToken(localToken);
+  //   console.log(response);
+  //   if (response.error) {
+  //     console.log(response.message);
+  //     console.log(response.error.message);
+  //     localStorage.removeItem('token');
+  //   } else {
+  //     console.log('Token validated');
+  //     return dispatch(setUser(response.user));
+  //   }
+  // } else {
+  //   console.log('Token is not present');
+  // }
+} //rewrite
   
 const loginUser = user => ({
     type: ActionType.LOGIN_USER,
@@ -163,13 +172,11 @@ export const fetchPlacards = (pageNo) => (dispatch) => {
   console.log('Now loading brower page: ' + pageNo)
   dispatch(placardsLoading(true));
 
-  var url = new URL(сonfig.baseUrl  + '/api/Placard/all');
+  var url = new URL(config.baseUrl  + '/api/Placard/all');
 
   var params = {page: pageNo};
 
   url.search = new URLSearchParams(params).toString();
-
-  console.log(url);
 
   return fetch(url, {
     method: "GET",
@@ -195,6 +202,131 @@ export const fetchPlacards = (pageNo) => (dispatch) => {
   });
 };
 
+export const placardInfoFetch = (cardId) => {
+  return dispatch => {
+    dispatch(placardLoading);
+    console.log('Fetching placard ' + cardId);
+    return fetch(config.baseUrl + `/api/Placard/${cardId}`, {
+      method: "GET",
+      headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      dispatch(updatePlacard(data));
+    })
+
+  }
+}
+
+export const deletePlacardFetch = (cardId) => {
+  return dispatch => {
+    dispatch(placardLoading);
+    var url = new URL(config.baseUrl  + '/api/Placard');
+    var params = {id: cardId};
+    url.search = new URLSearchParams(params).toString();
+
+    console.log('Deleting placard ' + cardId);
+    return fetch(url, {
+      method: "DELETE",
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
+    .then(response => {
+      console.log(response);
+      dispatch(deletePlacard());
+    }).then(() =>{
+      dispatch(fetchPlacards(1))
+    })
+
+  }
+}
+
+export const postPlacardFetch = (formData) => {
+  return dispatch => {
+    dispatch(profileLoading);
+    return fetch(config.baseUrl + `/api/Placard/${localStorage.getItem('userId')}`, {
+      method: "POST", 
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: formData
+    })
+    .then(response => {
+      console.log(response);
+    })
+    .then(() =>{
+      dispatch(fetchPlacards(1))
+    })
+
+  }
+}
+
+export const postLikePlacard = (body) => {
+  return dispatch => {
+    return fetch(config.baseUrl + 'api/support',{
+      method: "POST",
+      headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: {
+        cardId: body.cardId,
+        userId: body.userId,
+        liked: true,
+      }
+    })
+  }
+}
+
+export const deleteLikePlacard = (body) => {
+  return dispatch => {
+    var url = new URL(config.baseUrl + 'api/support');
+    var params = {userId: body.userId, cardId: body.cardId};
+    url.search = new URLSearchParams(params).toString();
+
+    return fetch(url,{
+      method: "DELETE",
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
+  }
+}
+
+export const authorInfoFetch = (userId) => {
+  return dispatch => {
+    dispatch(authorLoading);
+    return fetch(config.baseUrl + `/api/User/${userId}`, {
+      method: "GET",
+      headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      dispatch(updateAuthor(data));
+    })
+    // redirect
+
+  }
+}
+
 const placardsLoading = () => ({
   type: ActionType.PLACARDS_LOADING,
 });
@@ -208,3 +340,43 @@ const updatePlacards = (placards) => ({
   type: ActionType.UPDATE_PLACARDS,
   payload: placards
 });
+
+const profileLoading = () => ({
+  type: ActionType.POFILE_LOADING,
+})
+
+const profilefailed = (errMess) => ({
+  type: ActionType.PROFILE_FAILED,
+  payload: errMess,
+})
+
+const updateProfile = (userProfile) => ({
+  type: ActionType.UPDATE_PROFILE,
+  payload: userProfile,
+})
+
+const placardLoading = () => ({
+  type: ActionType.UPDATE_PLACARD,
+})
+
+const updatePlacard = (placard) => ({
+  type: ActionType.UPDATE_PLACARD,
+  payload: placard,
+})
+
+const cardFailed = () => ({
+  type: ActionType.PLACARD_FAILED,
+})
+
+const deletePlacard = () => ({
+  type: ActionType.DELETE_PLACARD,
+})
+
+const authorLoading = () => ({
+  type: ActionType.AUTHOR_LOADING,
+})
+
+const updateAuthor = (author) => ({
+  type: ActionType.UPDATE_AUTHOR,
+  payload: author,
+})

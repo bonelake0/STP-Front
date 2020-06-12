@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { withRouter, Switch, Route } from 'react-router-dom';
+import { withRouter, Switch, Route, Router } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getProfileFetch } from '../acitons/ActionCreators';
+import { userTokenCheck } from '../acitons/ActionCreators';
 
 import Header from './AppHeaderComponent';
 import Footer from './FooterComponent';
@@ -14,9 +14,10 @@ import UserProfile from './UserProfileComponent';
 class Main extends Component {
 
     componentDidMount = () => {
-        this.props.getProfileFetch();
+        this.props.userTokenCheck();
     }
 
+    
     render() {
         
         const BrowserPage = (props) => {
@@ -29,10 +30,20 @@ class Main extends Component {
             )
         }
 
+        const HomePage = () => {
+            return(
+                <div className='signup-body'>
+                    <h1 style={{textAlign: 'center'}}>Wellcome to the Internet</h1>
+                    <p style={{textAlign: 'center'}}>Please follow me</p>
+                </div>
+            )
+        }
+
         return(
             <div>
-                <Header/>
+                <Header user={this.props.user}/>
                 <Switch>
+                    <Route exact path="/" component={HomePage} />
                     <Route path="/signup" component={Signup}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/browse" render={() =>{
@@ -46,7 +57,7 @@ class Main extends Component {
                             : <Login />
                     }}/>
                     <Route path="/settings" />
-                    <Route path="/card" component={PlacardView} />
+                    <Route path="/placard/:cardId" component={PlacardView} />
                 </Switch>
                 <Footer />
             </div>
@@ -63,7 +74,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    getProfileFetch: () => dispatch(getProfileFetch()),
+    userTokenCheck: () => dispatch(userTokenCheck()),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

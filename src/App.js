@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { ConfigureStore } from './reducer/configureStore';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import history from './history';
 
 import Main from './components/MainComponent';
 
@@ -12,9 +13,9 @@ class App extends Component {
   render () {
     return (
       <Provider store={store}>
-        <BrowserRouter>
+        <Router history={history}>
           <Main />
-        </BrowserRouter>
+        </Router>
       </Provider>
     );
   }

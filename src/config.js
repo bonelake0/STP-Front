@@ -1,3 +1,3 @@
-const baseUrl = 'https://localhost:5001';
+const baseUrl = 'http://176.36.116.224:5001';
 
-export const сonfig = {baseUrl: baseUrl};
+export const config = {baseUrl: baseUrl};

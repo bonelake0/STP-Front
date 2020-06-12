@@ -26,32 +26,37 @@ class Login extends Component {
 
   render() {
     return (
-      <Container>
-        <Row>
-          <Col md={{span:6, offset:3}} xl={{span:4, offset:4}} className='mt-5'>
-            <Form onSubmit={this.handleSubmit}>
-                <FormGroup>
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control type='text' id='username' name='username'
-                        value={this.state.username} onChange={this.handleChange}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type='password' id='password' name='password'
-                        value={this.state.password} onChange={this.handleChange}
-                    />
-                </FormGroup>
-                <FormGroup check>
-                    <Form.Check type='checkbox' name='remember' label='Remember me'
-                        // copy
-                    />
-                </FormGroup>
-                <Button type='submit' value='submit' color='primary'>Log in</Button>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+      <div className='signup-body'>
+        <Container>
+          <Row>
+          <Col xs={12} className='d-flex justify-content-center'>
+              <h1>Sign In</h1>
+            </Col>
+            <Col md={{span:6, offset:3}} xl={{span:4, offset:4}} className='mt-5'>
+              <Form onSubmit={this.handleSubmit}>
+                  <FormGroup>
+                      <Form.Label>Username</Form.Label>
+                      <Form.Control type='text' id='username' name='username'
+                          value={this.state.username} onChange={this.handleChange}
+                      />
+                  </FormGroup>
+                  <FormGroup>
+                      <Form.Label>Password</Form.Label>
+                      <Form.Control type='password' id='password' name='password'
+                          value={this.state.password} onChange={this.handleChange}
+                      />
+                  </FormGroup>
+                  <FormGroup check>
+                      <Form.Check type='checkbox' name='remember' label='Remember me'
+                          // copy
+                      />
+                  </FormGroup>
+                  <Button type='submit' value='submit' color='primary'>Log in</Button>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     )
   }
 }

@@ -24,26 +24,33 @@ class Header extends Component {
                     <Navbar.Toggle style={navbarTextColor} aria-controls='nav-toggle' />
                     <Navbar.Collapse id='nav-toggle'>
                     <Nav className="mr-auto">
-                        <Nav.Item>
-                            <Nav.Link as={Link} style={navbarTextColor} to='/signup'>
-                                Signup
-                            </Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link as={Link} style={navbarTextColor} to='/login'>
-                                Login
-                            </Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link as={Link} style={navbarTextColor} to='/browse'>
-                                Browse
-                            </Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link as={Link} style={navbarTextColor} to='/profile'>
-                                My Profile
-                            </Nav.Link>
-                        </Nav.Item>
+                    {this.props.user.isLoggedIn ? (
+                        <React.Fragment>
+                            <Nav.Item>
+                                <Nav.Link as={Link} style={navbarTextColor} to='/browse'>
+                                    Browse
+                                </Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link as={Link} style={navbarTextColor} to='/profile'>
+                                    My Profile
+                                </Nav.Link>
+                            </Nav.Item>
+                        </React.Fragment>                        
+                    ) : (
+                        <React.Fragment>
+                            <Nav.Item>
+                                <Nav.Link as={Link} style={navbarTextColor} to='/signup'>
+                                    Signup
+                                </Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link as={Link} style={navbarTextColor} to='/login'>
+                                    Login
+                                </Nav.Link>
+                            </Nav.Item>
+                        </React.Fragment>
+                    )}
                     </Nav>
                     <Form inline>
                         <FormControl type="text" placeholder="Search" className="mr-sm-2" />

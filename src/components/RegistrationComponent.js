@@ -33,6 +33,9 @@ render() {
     <div className='signup-body'>
       <Container>
         <Row>
+          <Col xs={12} className='d-flex justify-content-center'>
+            <h1>Sign Up</h1>
+          </Col>
           <Col md={{span:6, offset:3}} xl={{span:4, offset:4}} className='mt-5'>
             <Form onSubmit={this.handleSubmit}>
                 <FormGroup>
